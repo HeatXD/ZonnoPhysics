@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "flecs.h"
 
 int main()
 {
