@@ -12,7 +12,7 @@ CFLAGS	:= -std=c99 -Wall -Wextra -g
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS =
+LFLAGS = -lraylib -lopengl32 -lgdi32 -lwinmm
 
 # define output directory
 OUTPUT	:= output
