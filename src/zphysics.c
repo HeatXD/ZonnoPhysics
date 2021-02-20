@@ -25,11 +25,14 @@ SOFTWARE.
 #include "zphysics.h"
 #include "flecs.h"
 
+// Declare Rectangle Component globally
+ECS_COMPONENT_DECLARE(ZPRect);
+
 int zp_world_setup(ZPWorld* zpw){
     // Create The ecs world 
     zpw->world = ecs_init();
-    // Declare Rectangle Component
-    ECS_COMPONENT(zpw->world, ZPRect);
+    // Define ZPRect component
+    ECS_COMPONENT_DEFINE(zpw->world, ZPRect);
     // Create a tag for each phase in the custom pipeline. 
     ECS_TAG(zpw->world, ZPWDynamics);
     ECS_TAG(zpw->world, ZPWCollisions);
@@ -66,4 +69,29 @@ void zp_rect_update_position(ecs_iter_t* it){
         zpr[i].position.x += zpr[i].velocity.x * it->delta_time;
         zpr[i].position.y += zpr[i].velocity.y * it->delta_time;
     }   
+}
+
+zp_entity_t zp_world_create_rect(ZPWorld* zpw){
+    // Create entity with type ZPRect and return 
+    return ecs_new(zpw->world, ZPRect);
+}
+
+zp_entity_t zp_rect_set_position(ZPWorld* zpw, zp_entity_t e, ZPPoint* p){
+    // Sets the position of a ZPRect, should return the entity. if e == null returns a new entity
+    return ecs_set(zpw->world, e, ZPRect, {.position.x = p->x, .position.y = p->y});
+}
+
+zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint* v){
+    // Sets the velocity of a ZPRect, should return the entity. if e == null returns a new entity
+    return ecs_set(zpw->world, e, ZPRect, {.velocity.x = v->x, .velocity.y = v->y});
+}
+
+zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint* a){
+    // Sets the acceleration of a ZPRect, should return the entity. if e == null returns a new entity
+    return ecs_set(zpw->world, e, ZPRect, {.acceleration.x = a->x, .acceleration.y = a->y});
+}
+
+zp_entity_t zp_rect_set_size(ZPWorld* zpw, zp_entity_t e, float _w, float _h){
+    // Sets the size of a ZPRect, should return the entity. if e == null returns a new entity
+    return ecs_set(zpw->world, e, ZPRect, {.w = _w, .h = _h});
 }

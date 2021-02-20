@@ -29,7 +29,7 @@ SOFTWARE.
 ///-------------------------------------------------------
 //Structures
 ///-------------------------------------------------------
-typedef ecs_entity_t zp_entity;
+typedef ecs_entity_t zp_entity_t;
 
 typedef struct ZPPoint {
     float x, y;
@@ -53,8 +53,13 @@ typedef struct ZPWorld {
 ///-------------------------------------------------------
 
 void zp_rect_update_position(ecs_iter_t *it);
+
 int zp_world_setup(ZPWorld* zpw);
 int zp_world_step(ZPWorld* zpw, float dt);
 int zp_world_stop(ZPWorld* zpw);
+
+zp_entity_t zp_world_create_rect(ZPWorld* zpw);
+zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint* v);
+zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint* a);
 
 #endif
