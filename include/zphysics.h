@@ -70,14 +70,13 @@ typedef ecs_entity_t ZPEntity;
 //Definitions
 ///-------------------------------------------------------
 
+ZPEntity zp_world_create_rect(ZPWorld* zpw);
 int zp_world_setup(ZPWorld* zpw);
 int zp_world_step(ZPWorld* zpw, float dt);
 int zp_world_stop(ZPWorld* zpw);
 int zp_get_entity_rect_count(ZPWorld* zpw);
 
 void zp_rect_dynamics(ecs_iter_t* it);
-
-ZPEntity zp_world_create_rect(ZPWorld* zpw);
 
 void zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
 void zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p);

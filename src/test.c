@@ -41,7 +41,7 @@ int basic_dymanics_test(void){
     //..
     do{
         // Update Simulation
-        zp_world_step(&zpw, 0.01667);
+        zp_world_step(&zpw, 0.0025);
         // Draw Simulation
         BeginDrawing();
         ClearBackground(BLACK);
