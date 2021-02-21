@@ -47,6 +47,13 @@ int zp_world_setup(ZPWorld* zpw){
     ECS_COMPONENT_DEFINE(zpw->world, ZPMass);
     // Define rectangle type
     ECS_TYPE_DEFINE(zpw->world, ZPRectangle, ZPPosition, ZPVelocity, ZPAcceleration, ZPSize, ZPMass);
+    // Get the ZPRectangle Table for later operations and all the needed columns
+    zpw->rect_table = ecs_table_from_type(zpw->world, ecs_type(ZPRectangle));
+    zpw->rect_cols.pos_col = ecs_table_find_column(zpw->rect_table, ecs_typeid(ZPPosition));
+    zpw->rect_cols.vel_col = ecs_table_find_column(zpw->rect_table, ecs_typeid(ZPVelocity));
+    zpw->rect_cols.accel_col = ecs_table_find_column(zpw->rect_table, ecs_typeid(ZPAcceleration));
+    zpw->rect_cols.size_col = ecs_table_find_column(zpw->rect_table, ecs_typeid(ZPSize));
+    zpw->rect_cols.mass_col = ecs_table_find_column(zpw->rect_table, ecs_typeid(ZPMass));
     // Create the pipeline phases
     ECS_TAG(zpw->world, ZPWDynamics);
     ECS_TAG(zpw->world, ZPWCollisions);
@@ -93,25 +100,42 @@ ZPEntity zp_world_create_rect(ZPWorld* zpw){
     return ecs_new(zpw->world, ZPRectangle);
 }
 
-ZPEntity zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
-    // Sets the position of entity e, if e == null it returns a new object with this component
-    return ecs_set(zpw->world, e, ZPPosition, {p->x, p->y});
+void zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    //Get table record
+    ecs_record_t* rec = ecs_record_find(zpw->world, e);
+    ZPPosition *p_mut = ecs_record_get_column(rec, zpw->rect_cols.pos_col, sizeof(ZPPosition));
+    // Set the Position of this rectangle
+    p_mut->x = p->x;
+    p_mut->y = p->y;
 }
 
-ZPEntity zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
-    // Sets the velocity of entity e, if e == null it returns a new object with this component
-    return ecs_set(zpw->world, e, ZPVelocity, {p->x, p->y});
+void zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    //Get table record
+    ecs_record_t* rec = ecs_record_find(zpw->world, e);
+    ZPVelocity *v_mut = ecs_record_get_column(rec, zpw->rect_cols.vel_col, sizeof(ZPVelocity));
+    // Set the Velocity of this rectangle
+    v_mut->x = p->x;
+    v_mut->y = p->y;
 }
 
-ZPEntity zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
-    // Sets the acceleration of entity e, if e == null it returns a new object with this component
-    return ecs_set(zpw->world, e, ZPAcceleration, {p->x, p->y});
+void zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    //Get table record
+    ecs_record_t* rec = ecs_record_find(zpw->world, e);
+    ZPAcceleration *a_mut = ecs_record_get_column(rec, zpw->rect_cols.accel_col, sizeof(ZPAcceleration));
+    // Set the Acceleration of this rectangle
+    a_mut->x = p->x;
+    a_mut->y = p->y;
 }
 
-ZPEntity zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s){
-    // Sets the size of entity e, if e == null it returns a new object with this component
-    return ecs_set(zpw->world, e, ZPSize, {s->width, s->height});
+void zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s){
+    //Get table record
+    ecs_record_t* rec = ecs_record_find(zpw->world, e);
+    ZPSize *s_mut = ecs_record_get_column(rec, zpw->rect_cols.size_col, sizeof(ZPSize));
+    // Set the Acceleration of this rectangle
+    s_mut->height = s->height;
+    s_mut->width = s->width;
 }
+
 // using ecs_get might not be best practice but i dont have another solution yet
 ZPPoint* zp_rect_get_position(ZPWorld* zpw, ZPEntity e){
     return ecs_get(zpw->world, e, ZPPosition);

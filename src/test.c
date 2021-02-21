@@ -19,7 +19,7 @@ int basic_dymanics_test(void){
     zp_world_setup(&zpw);
     // Create a entity
     ZPEntity e = zp_world_create_rect(&zpw);
-    ZPPoint pv = {0, 0}, pp = {250, 250}, pa = {0, 9.8};
+    ZPPoint pv = {0, 0}, pp = {250, 250}, pa = {0, .8};
     ZPSize s = {50, 50};
 
     zp_rect_set_size(&zpw, e, &s);

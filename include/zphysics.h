@@ -36,9 +36,16 @@ SOFTWARE.
 ///-------------------------------------------------------
 //Structures
 ///-------------------------------------------------------
+typedef struct {
+  int32_t pos_col, vel_col;
+  int32_t accel_col, size_col;
+  int32_t mass_col;
+}ZPWColumns;
 
 typedef struct {
   ecs_world_t* world;
+  ecs_table_t* rect_table;
+  ZPWColumns rect_cols;
 }ZPWorld;
 
 typedef struct {
@@ -71,10 +78,11 @@ int zp_get_entity_rect_count(ZPWorld* zpw);
 void zp_rect_dynamics(ecs_iter_t* it);
 
 ZPEntity zp_world_create_rect(ZPWorld* zpw);
-ZPEntity zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
-ZPEntity zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
-ZPEntity zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
-ZPEntity zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s);
+
+void zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+void zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+void zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+void zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s);
 
 ZPPoint* zp_rect_get_position(ZPWorld* zpw, ZPEntity e);
 ZPPoint*  zp_rect_get_velocity(ZPWorld* zpw, ZPEntity e);
