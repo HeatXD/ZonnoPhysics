@@ -31,16 +31,29 @@ SOFTWARE.
 //Macros
 ///-------------------------------------------------------
 
-#define ARRLEN(x) (sizeof(x) / sizeof((x)[0]))
+#define ZPARRLEN(x) (sizeof(x) / sizeof((x)[0]))
 
 ///-------------------------------------------------------
 //Structures
 ///-------------------------------------------------------
 
+typedef struct {
+  ecs_world_t* world;
+}ZPWorld;
+
+typedef struct {
+  float x, y;
+}ZPPoint, ZPPosition, ZPVelocity, ZPAcceleration;
+
+typedef struct {
+  float width, height;
+} ZPSize;
+
+typedef struct {
+  float mass;
+} ZPMass;
 
 ///-------------------------------------------------------
 //Definitions
 ///-------------------------------------------------------
-
-
 #endif

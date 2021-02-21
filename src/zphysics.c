@@ -26,3 +26,6 @@ SOFTWARE.
 #include "flecs.h"
 #include <stdio.h>
 
+void zp_world_setup(ZPWorld* zpw){
+    
+}
