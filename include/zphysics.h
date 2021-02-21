@@ -26,40 +26,21 @@ SOFTWARE.
 
 #ifndef ZONNO_PHYS
 #define ZONNO_PHYS
+
+///-------------------------------------------------------
+//Macros
+///-------------------------------------------------------
+
+#define ARRLEN(x) (sizeof(x) / sizeof((x)[0]))
+
 ///-------------------------------------------------------
 //Structures
 ///-------------------------------------------------------
-typedef ecs_entity_t zp_entity_t;
 
-typedef struct ZPPoint {
-    float x, y;
-}ZPPoint;
-
-typedef struct ZPLine {
-    ZPPoint a, b;
-}ZPLine;
-
-typedef struct ZPRect {
-    ZPPoint position, velocity, acceleration;
-    float w, h;
-}ZPRect;
-
-typedef struct ZPWorld {
-    ecs_world_t* world;
-}ZPWorld;
 
 ///-------------------------------------------------------
 //Definitions
 ///-------------------------------------------------------
 
-void zp_rect_update_position(ecs_iter_t *it);
-
-int zp_world_setup(ZPWorld* zpw);
-int zp_world_step(ZPWorld* zpw, float dt);
-int zp_world_stop(ZPWorld* zpw);
-
-zp_entity_t zp_world_create_rect(ZPWorld* zpw);
-zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint* v);
-zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint* a);
 
 #endif

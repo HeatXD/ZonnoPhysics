@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "zphysics.h": "c",
-        "flecs.h": "c"
+        "flecs.h": "c",
+        "iterator": "c",
+        "xhash": "c"
     }
 }
