@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "zphysics.h": "c",
-        "flecs.h": "c"
+        "flecs.h": "c",
+        "xiosbase": "c"
     }
 }

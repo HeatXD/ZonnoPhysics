@@ -57,7 +57,7 @@ typedef struct {
   float mass;
 } ZPMass;
 
-typedef ecs_entity_t zp_entity_t;
+typedef ecs_entity_t ZPEntity;
 
 ///-------------------------------------------------------
 //Definitions
@@ -70,10 +70,15 @@ int zp_get_entity_rect_count(ZPWorld* zpw);
 
 void zp_rect_dynamics(ecs_iter_t* it);
 
-zp_entity_t zp_world_create_rect(ZPWorld* zpw);
-zp_entity_t zp_rect_set_position(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
-zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
-zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
-zp_entity_t zp_rect_set_size(ZPWorld* zpw, zp_entity_t e, ZPSize s);
+ZPEntity zp_world_create_rect(ZPWorld* zpw);
+ZPEntity zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+ZPEntity zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+ZPEntity zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p);
+ZPEntity zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s);
+
+ZPPoint* zp_rect_get_position(ZPWorld* zpw, ZPEntity e);
+ZPPoint*  zp_rect_get_velocity(ZPWorld* zpw, ZPEntity e);
+ZPPoint* zp_rect_get_acceleration(ZPWorld* zpw, ZPEntity e);
+ZPSize* zp_rect_get_size(ZPWorld* zpw, ZPEntity e);
 
 #endif

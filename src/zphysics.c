@@ -49,22 +49,22 @@ int zp_world_setup(ZPWorld* zpw){
     ECS_TYPE_DEFINE(zpw->world, ZPRectangle, ZPPosition, ZPVelocity, ZPAcceleration, ZPSize, ZPMass);
     // Create the pipeline phases
     ECS_TAG(zpw->world, ZPWDynamics);
+    ECS_TAG(zpw->world, ZPWCollisions);
     // Create the pipeline
-    ECS_PIPELINE(zpw->world, ZPWPipeline, ZPWDynamics);
+    ECS_PIPELINE(zpw->world, ZPWPipeline, ZPWDynamics, ZPWCollisions);
     // Set the world to use the pipeline
     ecs_set_pipeline(zpw->world, ZPWPipeline);
     // ZPWDynamics systems
-    ECS_SYSTEM(zpw->world, zp_rect_dynamics, ZPWDynamics, ZPRectangle);
+    ECS_SYSTEM(zpw->world, zp_rect_dynamics, ZPWDynamics, ZPPosition, ZPVelocity, ZPAcceleration);
     //..
     return 0;
 }
 
 void zp_rect_dynamics(ecs_iter_t* it){
-
     ZPPosition* zpp = ecs_column(it, ZPPosition, 1);
     ZPVelocity* zpv = ecs_column(it, ZPVelocity, 2);
     ZPAcceleration* zpa = ecs_column(it, ZPAcceleration, 3);
-
+    
     for (int i = 0; i < it->count; i++){
         // Update Velocity
         zpv[i].x += (zpa[i].x * it->delta_time);
@@ -88,23 +88,43 @@ int zp_get_entity_rect_count(ZPWorld* zpw){
     // Get the count of active rectangles in the world
     return ecs_count(zpw->world, ZPRectangle);
 }
-zp_entity_t zp_world_create_rect(ZPWorld* zpw){
+ZPEntity zp_world_create_rect(ZPWorld* zpw){
     // Create a new rectangle and return this entity
     return ecs_new(zpw->world, ZPRectangle);
 }
 
-zp_entity_t zp_rect_set_position(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
-    return ecs_set(zpw->world, e, ZPPosition, {p.x, p.y});
+ZPEntity zp_rect_set_position(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    // Sets the position of entity e, if e == null it returns a new object with this component
+    return ecs_set(zpw->world, e, ZPPosition, {p->x, p->y});
 }
 
-zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
-   return ecs_set(zpw->world, e, ZPVelocity, {p.x, p.y});
+ZPEntity zp_rect_set_velocity(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    // Sets the velocity of entity e, if e == null it returns a new object with this component
+    return ecs_set(zpw->world, e, ZPVelocity, {p->x, p->y});
 }
 
-zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
-   return ecs_set(zpw->world, e, ZPAcceleration, {p.x, p.y});
+ZPEntity zp_rect_set_acceleration(ZPWorld* zpw, ZPEntity e, ZPPoint* p){
+    // Sets the acceleration of entity e, if e == null it returns a new object with this component
+    return ecs_set(zpw->world, e, ZPAcceleration, {p->x, p->y});
 }
 
-zp_entity_t zp_rect_set_size(ZPWorld* zpw, zp_entity_t e, ZPSize s){
-    return ecs_set(zpw->world, e, ZPSize, {s.width, s.height});
+ZPEntity zp_rect_set_size(ZPWorld* zpw, ZPEntity e, ZPSize* s){
+    // Sets the size of entity e, if e == null it returns a new object with this component
+    return ecs_set(zpw->world, e, ZPSize, {s->width, s->height});
+}
+// using ecs_get might not be best practice but i dont have another solution yet
+ZPPoint* zp_rect_get_position(ZPWorld* zpw, ZPEntity e){
+    return ecs_get(zpw->world, e, ZPPosition);
+}
+
+ZPPoint* zp_rect_get_velocity(ZPWorld* zpw, ZPEntity e){
+    return ecs_get(zpw->world, e, ZPVelocity);
+}
+
+ZPPoint* zp_rect_get_acceleration(ZPWorld* zpw, ZPEntity e){
+    return ecs_get(zpw->world, e, ZPAcceleration);
+}
+
+ZPSize* zp_rect_get_size(ZPWorld* zpw, ZPEntity e){
+    return ecs_get(zpw->world, e, ZPSize);
 }
