@@ -46,12 +46,18 @@ typedef struct {
 }ZPPoint, ZPPosition, ZPVelocity, ZPAcceleration;
 
 typedef struct {
+  ZPPoint a, b;
+} ZPLine;
+
+typedef struct {
   float width, height;
 } ZPSize;
 
 typedef struct {
   float mass;
 } ZPMass;
+
+typedef ecs_entity_t zp_entity_t;
 
 ///-------------------------------------------------------
 //Definitions
@@ -60,7 +66,14 @@ typedef struct {
 int zp_world_setup(ZPWorld* zpw);
 int zp_world_step(ZPWorld* zpw, float dt);
 int zp_world_stop(ZPWorld* zpw);
+int zp_get_entity_rect_count(ZPWorld* zpw);
 
 void zp_rect_dynamics(ecs_iter_t* it);
+
+zp_entity_t zp_world_create_rect(ZPWorld* zpw);
+zp_entity_t zp_rect_set_position(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
+zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
+zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint p);
+zp_entity_t zp_rect_set_size(ZPWorld* zpw, zp_entity_t e, ZPSize s);
 
 #endif

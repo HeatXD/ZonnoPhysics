@@ -33,17 +33,20 @@ ECS_COMPONENT_DECLARE(ZPAcceleration);
 ECS_COMPONENT_DECLARE(ZPSize);
 ECS_COMPONENT_DECLARE(ZPMass);
 
+// Declare Rectangle type globally
+ECS_TYPE_DECLARE(ZPRectangle);
+
 int zp_world_setup(ZPWorld* zpw){
     // Create The ecs world 
-    zpw->world = ecs_mini();
+    zpw->world = ecs_init();
     // define components
     ECS_COMPONENT_DEFINE(zpw->world, ZPPosition);
     ECS_COMPONENT_DEFINE(zpw->world, ZPVelocity);
     ECS_COMPONENT_DEFINE(zpw->world, ZPAcceleration);
     ECS_COMPONENT_DEFINE(zpw->world, ZPSize);
     ECS_COMPONENT_DEFINE(zpw->world, ZPMass);
-    // Declare rectangle type
-    ECS_TYPE(zpw->world, ZPRectangle, ZPPosition, ZPVelocity, ZPAcceleration, ZPSize, ZPMass);
+    // Define rectangle type
+    ECS_TYPE_DEFINE(zpw->world, ZPRectangle, ZPPosition, ZPVelocity, ZPAcceleration, ZPSize, ZPMass);
     // Create the pipeline phases
     ECS_TAG(zpw->world, ZPWDynamics);
     // Create the pipeline
@@ -79,4 +82,26 @@ int zp_world_step(ZPWorld* zpw, float dt){
 int zp_world_stop(ZPWorld* zpw){
     // Clean up resources
     return ecs_fini(zpw->world);
+}
+int zp_get_entity_rect_count(ZPWorld* zpw){
+    return ecs_count(zpw->world, ZPRectangle);
+}
+zp_entity_t zp_world_create_rect(ZPWorld* zpw){
+    return ecs_new(zpw->world, ZPRectangle);
+}
+
+zp_entity_t zp_rect_set_position(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
+    return ecs_set(zpw->world, e, ZPPosition, {p.x, p.y});
+}
+
+zp_entity_t zp_rect_set_velocity(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
+   return ecs_set(zpw->world, e, ZPVelocity, {p.x, p.y});
+}
+
+zp_entity_t zp_rect_set_acceleration(ZPWorld* zpw, zp_entity_t e, ZPPoint p){
+   return ecs_set(zpw->world, e, ZPAcceleration, {p.x, p.y});
+}
+
+zp_entity_t zp_rect_set_size(ZPWorld* zpw, zp_entity_t e, ZPSize s){
+    return ecs_set(zpw->world, e, ZPSize, {s.width, s.height});
 }

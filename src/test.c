@@ -13,16 +13,23 @@ int main(void)
 int basic_dymanics_test(void){
     // Create a Raylib window
     InitWindow(500, 500, "Dynamics test");
-    // Init the world
+    // Create the ZonnoPhysics world
     ZPWorld zpw;
-    
+    // Init the world
+    zp_world_setup(&zpw);
+    // Create a entity
+    zp_entity_t e = zp_world_create_rect(&zpw);
+    //check if entity has been added
+    printf("rects: %d", zp_get_entity_rect_count(&zpw));
     do
     {
-        ///Draw Simulation
+        // Update Simulation
+        zp_world_step(&zpw, 0.01667);
+        // Draw Simulation
         BeginDrawing();
 
         ClearBackground(BLACK);
-        //draw a nice border
+        // Draw a nice border
         DrawRectangleLines(1, 1, 498, 498, BLUE);
         
         EndDrawing();
