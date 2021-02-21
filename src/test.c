@@ -20,7 +20,7 @@ int basic_dymanics_test(void){
     // Create a entity
     zp_entity_t e = zp_world_create_rect(&zpw);
     //check if entity has been added
-    printf("rects: %d", zp_get_entity_rect_count(&zpw));
+    printf("rects: %d \n", zp_get_entity_rect_count(&zpw));
     do
     {
         // Update Simulation
@@ -33,7 +33,6 @@ int basic_dymanics_test(void){
         DrawRectangleLines(1, 1, 498, 498, BLUE);
         
         EndDrawing();
-
 
     } while (!WindowShouldClose());
 

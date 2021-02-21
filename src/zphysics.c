@@ -55,6 +55,7 @@ int zp_world_setup(ZPWorld* zpw){
     ecs_set_pipeline(zpw->world, ZPWPipeline);
     // ZPWDynamics systems
     ECS_SYSTEM(zpw->world, zp_rect_dynamics, ZPWDynamics, ZPRectangle);
+    //..
     return 0;
 }
 
@@ -84,9 +85,11 @@ int zp_world_stop(ZPWorld* zpw){
     return ecs_fini(zpw->world);
 }
 int zp_get_entity_rect_count(ZPWorld* zpw){
+    // Get the count of active rectangles in the world
     return ecs_count(zpw->world, ZPRectangle);
 }
 zp_entity_t zp_world_create_rect(ZPWorld* zpw){
+    // Create a new rectangle and return this entity
     return ecs_new(zpw->world, ZPRectangle);
 }
 
