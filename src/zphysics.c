@@ -26,10 +26,49 @@ SOFTWARE.
 #include "flecs.h"
 #include <stdio.h>
 
+// Declare components globally in this file
+ECS_COMPONENT_DECLARE(ZPPosition);
+ECS_COMPONENT_DECLARE(ZPVelocity);
+ECS_COMPONENT_DECLARE(ZPAcceleration);
+ECS_COMPONENT_DECLARE(ZPSize);
+ECS_COMPONENT_DECLARE(ZPMass);
+
 int zp_world_setup(ZPWorld* zpw){
     // Create The ecs world 
-    zpw->world = ecs_init();
+    zpw->world = ecs_mini();
+    // define components
+    ECS_COMPONENT_DEFINE(zpw->world, ZPPosition);
+    ECS_COMPONENT_DEFINE(zpw->world, ZPVelocity);
+    ECS_COMPONENT_DEFINE(zpw->world, ZPAcceleration);
+    ECS_COMPONENT_DEFINE(zpw->world, ZPSize);
+    ECS_COMPONENT_DEFINE(zpw->world, ZPMass);
+    // Declare rectangle type
+    ECS_TYPE(zpw->world, ZPRectangle, ZPPosition, ZPVelocity, ZPAcceleration, ZPSize, ZPMass);
+    // Create the pipeline phases
+    ECS_TAG(zpw->world, ZPWDynamics);
+    // Create the pipeline
+    ECS_PIPELINE(zpw->world, ZPWPipeline, ZPWDynamics);
+    // Set the world to use the pipeline
+    ecs_set_pipeline(zpw->world, ZPWPipeline);
+    // ZPWDynamics systems
+    ECS_SYSTEM(zpw->world, zp_rect_dynamics, ZPWDynamics, ZPRectangle);
     return 0;
+}
+
+void zp_rect_dynamics(ecs_iter_t* it){
+
+    ZPPosition* zpp = ecs_column(it, ZPPosition, 1);
+    ZPVelocity* zpv = ecs_column(it, ZPVelocity, 2);
+    ZPAcceleration* zpa = ecs_column(it, ZPAcceleration, 3);
+
+    for (int i = 0; i < it->count; i++){
+        // Update Velocity
+        zpv[i].x += (zpa[i].x * it->delta_time);
+        zpv[i].y += (zpa[i].y * it->delta_time);
+        // Update Position
+        zpp[i].x += (zpv[i].x * it->delta_time);
+        zpp[i].y += (zpv[i].y * it->delta_time);
+    }
 }
 
 int zp_world_step(ZPWorld* zpw, float dt){

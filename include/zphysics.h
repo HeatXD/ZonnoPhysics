@@ -56,4 +56,11 @@ typedef struct {
 ///-------------------------------------------------------
 //Definitions
 ///-------------------------------------------------------
+
+int zp_world_setup(ZPWorld* zpw);
+int zp_world_step(ZPWorld* zpw, float dt);
+int zp_world_stop(ZPWorld* zpw);
+
+void zp_rect_dynamics(ecs_iter_t* it);
+
 #endif

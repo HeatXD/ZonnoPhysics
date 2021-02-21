@@ -13,6 +13,8 @@ int main(void)
 int basic_dymanics_test(void){
     // Create a Raylib window
     InitWindow(500, 500, "Dynamics test");
+    // Init the world
+    ZPWorld zpw;
     
     do
     {
