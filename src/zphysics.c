@@ -26,6 +26,18 @@ SOFTWARE.
 #include "flecs.h"
 #include <stdio.h>
 
-void zp_world_setup(ZPWorld* zpw){
-    
+int zp_world_setup(ZPWorld* zpw){
+    // Create The ecs world 
+    zpw->world = ecs_init();
+    return 0;
+}
+
+int zp_world_step(ZPWorld* zpw, float dt){
+    // Advance ZPWorld
+    return ecs_progress(zpw->world, dt);    
+}
+
+int zp_world_stop(ZPWorld* zpw){
+    // Clean up resources
+    return ecs_fini(zpw->world);
 }
