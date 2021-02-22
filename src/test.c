@@ -29,10 +29,10 @@ int basic_dymanics_test(void){
     zp_rect_set_acceleration(&zpw, e, &pa);
     //check if entity has been added
     //printf("rects: %d \n", zp_get_entity_rect_count(&zpw));
-    ZPPoint* pos_test = zp_rect_get_position(&zpw, e);
-    ZPPoint* vel_test = zp_rect_get_velocity(&zpw, e);
-    ZPPoint* accel_test = zp_rect_get_acceleration(&zpw, e);
-    ZPSize* siz_test = zp_rect_get_size(&zpw, e);
+    //ZPPoint* pos_test = zp_rect_get_position(&zpw, e);
+    //ZPPoint* vel_test = zp_rect_get_velocity(&zpw, e);
+    //ZPPoint* accel_test = zp_rect_get_acceleration(&zpw, e);
+    //ZPSize* siz_test = zp_rect_get_size(&zpw, e);
     //printf("pos = x:%f, y:%f \n", pos_test->x, pos_test->y);
     //printf("vel = x:%f, y:%f \n", vel_test->x, vel_test->y);
     //printf("accel = x:%f, y:%f \n", accel_test->x, accel_test->y);
@@ -40,7 +40,7 @@ int basic_dymanics_test(void){
     //..
     do{
         // Update Simulation
-        zp_world_step(&zpw, 0.017);
+        zp_world_step(&zpw, 0.01667);
         // Some come to make the rectangle bounce off the walls
         ZPPoint* po = zp_rect_get_position(&zpw, e);
         ZPSize* si = zp_rect_get_size(&zpw, e);
