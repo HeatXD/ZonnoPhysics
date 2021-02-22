@@ -37,7 +37,6 @@ int basic_dymanics_test(void){
     //printf("vel = x:%f, y:%f \n", vel_test->x, vel_test->y);
     //printf("accel = x:%f, y:%f \n", accel_test->x, accel_test->y);
     //printf("size = w:%f, h:%f \n", siz_test->width, siz_test->height);
-    //..
     do{
         // Update Simulation
         zp_world_step(&zpw, 0.01667);
