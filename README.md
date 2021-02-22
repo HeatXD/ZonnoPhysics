@@ -2,7 +2,7 @@
 
 # ZonnoPhysics
 A simple 2D AABB Physics Engine Written in C using flecs 2.3.1.
-And using raylib 3.5.0 in the tests.
+And using raylib 3.5.0 in the visualisations.
 
 made for my own educational purpose
 
